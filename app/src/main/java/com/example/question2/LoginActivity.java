@@ -57,6 +57,15 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         authProfile = FirebaseAuth.getInstance();
 
+        Button buttonForgotPassword = findViewById(R.id.button_forgot_password);
+        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(LoginActivity.this, "You can reset your password now!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            }
+        });
+
         ImageView imageViewShowHidePwd = findViewById(R.id.imageView_show_hide_pwd);
         imageViewShowHidePwd.setImageResource(R.drawable.img_1);
         imageViewShowHidePwd.setOnClickListener(new View.OnClickListener() {
