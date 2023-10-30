@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText editTextPwdResetEmail;
     private ProgressBar progressBar;
     private FirebaseAuth authProfile;
+    private final static String TAG = "ForgotPasswordActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = editTextPwdResetEmail.getText().toString();
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     Toast.makeText(ForgotPasswordActivity.this, "Please enter your registered email", Toast.LENGTH_SHORT).show();
                     editTextPwdResetEmail.setError("Email is required");
                     editTextPwdResetEmail.requestFocus();
@@ -61,7 +64,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         authProfile.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task. isSuccessful()){
+                if (task.isSuccessful()) {
                     Toast.makeText(ForgotPasswordActivity.this, "Please check your inbox for password reset link",
                             Toast.LENGTH_SHORT).show();
 
@@ -71,8 +74,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(ForgotPasswordActivity.this, "Something went wrong!",
-                            Toast.LENGTH_SHORT).show();
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthInvalidUserException e) {
+                        editTextPwdResetEmail.setError("User does not exists or is no longer valid. Please register again");
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(ForgotPasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 progressBar.setVisibility(View.GONE);
             }

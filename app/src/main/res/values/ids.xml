@@ -2,4 +2,5 @@
 <resources>
     <item name="textView_password_reset_head" type="id" />
     <item name="editText_password_reset_email" type="id" />
+    <item name="upload_pic_button" type="id" />
 </resources>

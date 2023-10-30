@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -47,6 +49,15 @@ public class UserProfileActivity extends AppCompatActivity {
         textViewGender = findViewById(R.id.textView_show_gender);
         textViewMobile = findViewById(R.id.textView_show_mobile);
         progressBar = findViewById(R.id.progressBar);
+
+        imageView = findViewById(R.id.imageView_profile_dp);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this, UploadProfilePicActivity.class);
+                startActivity(intent);
+            }
+        });
 
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
@@ -100,12 +111,19 @@ public class UserProfileActivity extends AppCompatActivity {
                     doB = readUserDetails.doB;
                     gender = readUserDetails.gender;
                     mobile = readUserDetails.mobile;
+
                     textViewWelcome.setText("Welcome, " + fullName + "!");
                     textViewFullName.setText(fullName);
                     textViewEmail.setText(email);
                     textViewDoB.setText(doB);
                     textViewGender.setText(gender);
                     textViewMobile.setText(mobile);
+
+                    Uri uri = firebaseUser.getPhotoUrl();
+
+                    Picasso.with(UserProfileActivity.this).load(uri).into(imageView);
+                } else {
+                    Toast.makeText(UserProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
 
                 }
                 progressBar.setVisibility(View.GONE);
