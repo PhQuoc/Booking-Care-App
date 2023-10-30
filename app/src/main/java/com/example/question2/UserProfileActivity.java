@@ -159,7 +159,6 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             Toast.makeText(UserProfileActivity.this, "Something went wrong! ", Toast.LENGTH_LONG).show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
