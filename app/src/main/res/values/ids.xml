@@ -3,4 +3,11 @@
     <item name="textView_password_reset_head" type="id" />
     <item name="editText_password_reset_email" type="id" />
     <item name="upload_pic_button" type="id" />
+    <item name="textView_update_profile_name" type="id" />
+    <item name="editText_update_profile_name" type="id" />
+    <item name="textView_update_profile_dob" type="id" />
+    <item name="editText_update_profile_dob" type="id" />
+    <item name="textView_update_profile_gender" type="id" />
+    <item name="textView_update_profile_mobile" type="id" />
+    <item name="editText_update_profile_mobile" type="id" />
 </resources>
