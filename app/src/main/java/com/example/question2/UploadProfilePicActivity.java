@@ -157,15 +157,13 @@ public class UploadProfilePicActivity extends AppCompatActivity {
             Intent intent = new Intent(UploadProfilePicActivity.this, UpdateProfileActivity.class);
             startActivity(intent);
             finish();
-        } /*else if (id == R.id.menu_update_email){
-            Intent intent = new Intent(UserProfileActivity.this, UpdateEmailActivity.class);
-            startActivity(intent);
         } else if (id == R.id.menu_settings){
-            Toast.makeText(UserProfileActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadProfilePicActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.menu_change_password){
-            Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
+            Intent intent = new Intent(UploadProfilePicActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
-        } else if (id == R.id.menu_delete_profile) {
+            finish();
+        }/* else if (id == R.id.menu_delete_profile) {
             Intent intent = new Intent(UserProfileActivity.this, DeleteProfileActivity.class);
             startActivity(intent);
         } */else if (id == R.id.menu_logout){

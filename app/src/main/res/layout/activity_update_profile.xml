@@ -126,35 +126,16 @@
             android:textSize="16sp"
             android:hint="Enter your mobile no."/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_upload_profile_pic"
-            android:text="Upload profile pic"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"
-            android:layout_below="@id/editText_update_profile_mobile"
-            android:backgroundTint="@color/teal_200"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_profile_update_email"
-            android:text="Update Email"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"
-            android:layout_below="@id/button_upload_profile_pic"
-            android:backgroundTint="@color/teal_200"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_update_profile"
-            android:text="UpdateProfile"
+            android:text="Update Profile"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
-            android:layout_below="@id/button_profile_update_email" />
+            android:layout_below="@id/editText_update_profile_mobile" />
 
         <ProgressBar
             android:layout_width="wrap_content"

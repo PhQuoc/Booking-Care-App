@@ -62,25 +62,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         showProfile(firebaseUser);
 
-        Button buttonUploadProfilePic = findViewById(R.id.button_upload_profile_pic);
-        buttonUploadProfilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UpdateProfileActivity.this, UploadProfilePicActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        //Update Email
-       /* Button buttonUpdateEmail = findViewById(R.id.button_profile_update_email);
-        buttonUpdateEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UpdateProfileActivity.this, UpdateEmailActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }); */
         editTextUpdateDoB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -248,15 +229,13 @@ public class UpdateProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(UpdateProfileActivity.this, UpdateProfileActivity.class);
             startActivity(intent);
             finish();
-        } /*else if (id == R.id.menu_update_email){
-            Intent intent = new Intent(UserProfileActivity.this, UpdateEmailActivity.class);
-            startActivity(intent);
         } else if (id == R.id.menu_settings){
-            Toast.makeText(UserProfileActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UpdateProfileActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.menu_change_password){
-            Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
+            Intent intent = new Intent(UpdateProfileActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
-        } else if (id == R.id.menu_delete_profile) {
+            finish();
+        } /*else if (id == R.id.menu_delete_profile) {
             Intent intent = new Intent(UserProfileActivity.this, DeleteProfileActivity.class);
             startActivity(intent);
         } */else if (id == R.id.menu_logout){
