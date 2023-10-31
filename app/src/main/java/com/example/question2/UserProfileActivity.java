@@ -81,10 +81,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
-        builder.setTitle("Email not verifed");
+        builder.setTitle("Email not verified");
         builder.setMessage("Please verify your email now.You can not login without email verification next time.");
 
-        builder.setPositiveButton("Countinue", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
