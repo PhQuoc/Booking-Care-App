@@ -3,10 +3,14 @@ package com.example.question2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,6 +37,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private String fullName, email, doB, gender, mobile;
     private ImageView imageView;
     private FirebaseAuth authProfile;
+    private SwipeRefreshLayout swipeContainer;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,6 +46,9 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        swipeToRefresh();
 
         textViewWelcome = findViewById(R.id.textView_show_welcome);
         textViewFullName = findViewById(R.id.textView_show_full_name);
@@ -71,6 +79,23 @@ public class UserProfileActivity extends AppCompatActivity {
             showUserProfile(firebaseUser);
         }
 
+    }
+
+    private void swipeToRefresh() {
+        swipeContainer = findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0 , 0);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
     }
 
     private void checkIfEmailVerified(FirebaseUser firebaseUser) {
@@ -148,7 +173,10 @@ public class UserProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_refresh){
+        if (id == android.R.id.home){
+            NavUtils.navigateUpFromSameTask(UserProfileActivity.this);
+        }
+        else if (id == R.id.menu_refresh){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0, 0);
@@ -160,10 +188,7 @@ public class UserProfileActivity extends AppCompatActivity {
         } else if (id == R.id.menu_change_password){
             Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
-        } /*else if (id == R.id.menu_delete_profile) {
-            Intent intent = new Intent(UserProfileActivity.this, DeleteProfileActivity.class);
-            startActivity(intent);
-        } */else if (id == R.id.menu_logout){
+        }else if (id == R.id.menu_logout){
             authProfile.signOut();
             Toast.makeText(UserProfileActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);

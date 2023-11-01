@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -57,12 +58,21 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         authProfile = FirebaseAuth.getInstance();
 
-        Button buttonForgotPassword = findViewById(R.id.button_forgot_password);
-        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+        TextView textViewRegister = findViewById(R.id.textView_register_link);
+        textViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent= new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView textViewPwdRegister = findViewById(R.id.textView_forgot_password_link);
+        textViewPwdRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Toast.makeText(LoginActivity.this, "You can reset your password now!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+                startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
             }
         });
 
@@ -125,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         firebaseUser.sendEmailVerification();
                         authProfile.signOut();
-                        showAlerDialog();
+                        showAlertDialog();
                     }
 
                 } else {
@@ -148,12 +158,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void showAlerDialog() {
+    private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setTitle("Email not verifed");
+        builder.setTitle("Email not verified");
         builder.setMessage("Please verify your email now.You can not login without email verification.");
 
-        builder.setPositiveButton("Countinue", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
