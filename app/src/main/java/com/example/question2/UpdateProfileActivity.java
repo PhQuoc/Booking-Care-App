@@ -210,45 +210,4 @@ public class UpdateProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.menu_refresh){
-            startActivity(getIntent());
-            finish();
-            overridePendingTransition(0, 0);
-        } else if (id == R.id.menu_update_profile){
-            Intent intent = new Intent(UpdateProfileActivity.this, UpdateProfileActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.menu_settings){
-            Toast.makeText(UpdateProfileActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.menu_change_password){
-            Intent intent = new Intent(UpdateProfileActivity.this, ChangePasswordActivity.class);
-            startActivity(intent);
-            finish();
-        } /*else if (id == R.id.menu_delete_profile) {
-            Intent intent = new Intent(UserProfileActivity.this, DeleteProfileActivity.class);
-            startActivity(intent);
-        } */else if (id == R.id.menu_logout){
-            authProfile.signOut();
-            Toast.makeText(UpdateProfileActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(UpdateProfileActivity.this, "Something went wrong! ", Toast.LENGTH_LONG).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

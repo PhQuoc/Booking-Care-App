@@ -8,12 +8,15 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -64,6 +67,35 @@ public class RegisterActivity extends AppCompatActivity {
 
         radioGroupRegisterGender = findViewById(R.id.radio_group_register_gender);
         radioGroupRegisterGender.clearCheck();
+
+        ImageView imageViewShowHidePwd = findViewById(R.id.imageView_show_hide_pwd);
+        imageViewShowHidePwd.setImageResource(R.drawable.img_1);
+        imageViewShowHidePwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editTextRegisterPwd.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    editTextRegisterPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewShowHidePwd.setImageResource(R.drawable.img_1);
+                } else {
+                    editTextRegisterPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewShowHidePwd.setImageResource(R.drawable.img);
+                }
+            }
+        });
+        ImageView imageViewShowHideConfirmPwd = findViewById(R.id.imageView_show_hide_confirm_pwd);
+        imageViewShowHideConfirmPwd.setImageResource(R.drawable.img_1);
+        imageViewShowHideConfirmPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editTextRegisterConfirmPwd.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    editTextRegisterConfirmPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewShowHideConfirmPwd.setImageResource(R.drawable.img_1);
+                } else {
+                    editTextRegisterConfirmPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewShowHideConfirmPwd.setImageResource(R.drawable.img);
+                }
+            }
+        });
 
         editTextRegisterDoB.setOnClickListener(new View.OnClickListener() {
             @Override

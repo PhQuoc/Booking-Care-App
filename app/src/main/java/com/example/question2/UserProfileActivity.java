@@ -16,11 +16,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,12 +34,13 @@ import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private TextView textViewWelcome, textViewFullName, textViewEmail, textViewDoB, textViewGender, textViewMobile;
+    private TextView textViewWelcome, textViewFullName, textViewDoB, textViewGender, textViewMobile;
     private ProgressBar progressBar;
-    private String fullName, email, doB, gender, mobile;
+    private String fullName, doB, gender, mobile;
     private ImageView imageView;
     private FirebaseAuth authProfile;
     private SwipeRefreshLayout swipeContainer;
+    private Button buttonLogout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -50,13 +53,52 @@ public class UserProfileActivity extends AppCompatActivity {
 
         swipeToRefresh();
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_profile);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bottom_home:
+                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_appointment_schedule:
+                    startActivity(new Intent(getApplicationContext(), AppointmentScheduleActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_notification:
+                    startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_profile:
+                    return true;
+            }
+            return false;
+        });
+
         textViewWelcome = findViewById(R.id.textView_show_welcome);
         textViewFullName = findViewById(R.id.textView_show_full_name);
-        textViewEmail = findViewById(R.id.textView_show_email);
         textViewDoB = findViewById(R.id.textView_show_dob);
         textViewGender = findViewById(R.id.textView_show_gender);
         textViewMobile = findViewById(R.id.textView_show_mobile);
         progressBar = findViewById(R.id.progressBar);
+
+        buttonLogout =findViewById(R.id.button_logout);
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                authProfile.signOut();
+                Toast.makeText(UserProfileActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         imageView = findViewById(R.id.imageView_profile_dp);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -132,14 +174,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
                 if (readUserDetails != null){
                     fullName = firebaseUser.getDisplayName();
-                    email = firebaseUser.getEmail();
                     doB = readUserDetails.doB;
                     gender = readUserDetails.gender;
                     mobile = readUserDetails.mobile;
 
                     textViewWelcome.setText("Welcome, " + fullName + "!");
                     textViewFullName.setText(fullName);
-                    textViewEmail.setText(email);
                     textViewDoB.setText(doB);
                     textViewGender.setText(gender);
                     textViewMobile.setText(mobile);
@@ -175,27 +215,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (id == android.R.id.home){
             NavUtils.navigateUpFromSameTask(UserProfileActivity.this);
-        }
-        else if (id == R.id.menu_refresh){
-            startActivity(getIntent());
-            finish();
-            overridePendingTransition(0, 0);
         } else if (id == R.id.menu_update_profile){
             Intent intent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
             startActivity(intent);
-        } else if (id == R.id.menu_settings){
-            Toast.makeText(UserProfileActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.menu_change_password){
             Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
-        }else if (id == R.id.menu_logout){
-            authProfile.signOut();
-            Toast.makeText(UserProfileActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
         } else {
             Toast.makeText(UserProfileActivity.this, "Something went wrong! ", Toast.LENGTH_LONG).show();
         }

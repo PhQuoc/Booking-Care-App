@@ -75,7 +75,7 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         });
     }
 
-    private void openFileChooser(){
+    private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -86,7 +86,7 @@ public class UploadProfilePicActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() !=null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uriImage = data.getData();
             imageViewUploadPic.setImageURI(uriImage);
         }
@@ -96,7 +96,7 @@ public class UploadProfilePicActivity extends AppCompatActivity {
     private void UploadPic() {
         if (uriImage != null) {
             StorageReference fileReference = storageReference.child(authProfile.getCurrentUser().getUid() + "."
-            + getFileExtension(uriImage));
+                    + getFileExtension(uriImage));
 
             fileReference.putFile(uriImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -107,7 +107,7 @@ public class UploadProfilePicActivity extends AppCompatActivity {
                             Uri dowloadUri = uri;
                             firebaseUser = authProfile.getCurrentUser();
 
-                            UserProfileChangeRequest profileUpdates = new  UserProfileChangeRequest.Builder()
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setPhotoUri(dowloadUri).build();
                             firebaseUser.updateProfile(profileUpdates);
                         }
@@ -138,45 +138,5 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.menu_refresh){
-            startActivity(getIntent());
-            finish();
-            overridePendingTransition(0, 0);
-        } else if (id == R.id.menu_update_profile){
-            Intent intent = new Intent(UploadProfilePicActivity.this, UpdateProfileActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.menu_settings){
-            Toast.makeText(UploadProfilePicActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.menu_change_password){
-            Intent intent = new Intent(UploadProfilePicActivity.this, ChangePasswordActivity.class);
-            startActivity(intent);
-            finish();
-        }/* else if (id == R.id.menu_delete_profile) {
-            Intent intent = new Intent(UserProfileActivity.this, DeleteProfileActivity.class);
-            startActivity(intent);
-        } */else if (id == R.id.menu_logout){
-            authProfile.signOut();
-            Toast.makeText(UploadProfilePicActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(UploadProfilePicActivity.this, MainActivity.class);
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(UploadProfilePicActivity.this, "Something went wrong! ", Toast.LENGTH_LONG).show();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

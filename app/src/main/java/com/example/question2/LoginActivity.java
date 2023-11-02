@@ -51,21 +51,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getSupportActionBar().setTitle("Home3");
+        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editTextLoginEmail = findViewById(R.id.editText_login_email);
         editTextLoginPwd = findViewById(R.id.editText_login_pwd);
         progressBar = findViewById(R.id.progressBar);
         authProfile = FirebaseAuth.getInstance();
-
-        TextView textViewRegister = findViewById(R.id.textView_register_link);
-        textViewRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
 
         TextView textViewPwdRegister = findViewById(R.id.textView_forgot_password_link);
         textViewPwdRegister.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +67,9 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
             }
         });
+
+
+
 
         ImageView imageViewShowHidePwd = findViewById(R.id.imageView_show_hide_pwd);
         imageViewShowHidePwd.setImageResource(R.drawable.img_1);
@@ -129,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (firebaseUser.isEmailVerified()){
                         Toast.makeText(LoginActivity.this, "You are logged in now.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, UserProfileActivity.class));
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                         finish();
 
                     } else {
@@ -149,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                         editTextLoginEmail.requestFocus();
                     } catch (Exception e){
                         Log.e(TAG, e.getMessage());
-                        Toast.makeText(LoginActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this,"Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 progressBar.setVisibility(View.GONE);
@@ -180,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         if (authProfile.getCurrentUser() != null){
             Toast.makeText(LoginActivity.this, "Already Logged in", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, UserProfileActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         }else {
             Toast.makeText(LoginActivity.this, "You can login now", Toast.LENGTH_SHORT).show();
